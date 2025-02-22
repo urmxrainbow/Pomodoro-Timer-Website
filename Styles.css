@@ -27,7 +27,7 @@ body {
     position: absolute;
     z-index: 2;
     background: rgba(0, 0, 0, 0.5);
-    padding: 5px;
+    padding: 2vw;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
