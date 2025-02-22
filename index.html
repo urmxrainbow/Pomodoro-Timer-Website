@@ -20,8 +20,8 @@
         </div>
         <div class="time-display" id="timer-display">25:00</div>
         <div class="buttons">
-            <button id="startPauseBtn" onclick="toggleTimer()">Start</button>
-            <button onclick="resetTimer()">Restart</button>
+            <button id="startPauseBtn" onclick="toggleTimer()">⭐️Start</button>
+            <button onclick="resetTimer()">🍋Restart</button>
         </div>
     
         <div id="background-video-container">
@@ -77,10 +77,10 @@
             if (isRunning) {
                 clearInterval(timer);
                 isRunning = false;
-                document.getElementById("startPauseBtn").innerText = "Start";
+                document.getElementById("startPauseBtn").innerText = "🍥Start";
             } else {
                 startTimer();
-                document.getElementById("startPauseBtn").innerText = "Pause";
+                document.getElementById("startPauseBtn").innerText = "🍵Pause";
             }
         }
 
