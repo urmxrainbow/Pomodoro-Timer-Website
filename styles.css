@@ -143,6 +143,10 @@ button:hover {
     font-size: 1.2vw;
 }
 
+#youtube-url {
+    border: 2px solid #ab8e72;
+}
+
 /* To-Do List Styling */
 #Todolist {
     margin-top: 10px;
