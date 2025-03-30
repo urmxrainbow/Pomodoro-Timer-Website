@@ -4,15 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-
     <title>Pomodoro Timer</title>
-
 </head>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="script.js"></script>
+
 <body>
+    <!-- Background Video Container -->
     <div id="background-video-container">
         <iframe id="background-video" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     </div>
-    <div class="container" id="timer-container">
+
+    <!-- Timer Container -->
+
+<div id="container">
+    <div id="draggable-container1" class="timer-container">
         <div class="mode-buttons">
             <button onclick="setMode('focus')" class="active">Focus</button>
             <button onclick="setMode('shortBreak')">Short Break</button>
@@ -23,147 +33,24 @@
             <button id="startPauseBtn" onclick="toggleTimer()">⭐️Start</button>
             <button onclick="resetTimer()">🍋Restart</button>
         </div>
-    
-        <div id="background-video-container">
-            <div id="background-video"></div>
-        </div>
     </div>
-    
+    <!-- To-Do List Container -->
+    <div id="draggable-container" id="Todolist">
+        <h1>My To-Do List</h1>
+        <div class="task-input">
+            <input type="text" id="new-task" placeholder="Add a task">
+            <button id="add-task-btn">Add task</button>
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+</div>
+    <!-- YouTube Video URL Input -->
     <div class="youtube-input">
         <input type="text" id="youtube-url" placeholder="Paste YouTube link here">
         <button onclick="setBackgroundFromInput()">Set Background</button>
     </div>
-    
-    <script>
-        let timer;
-        let timeLeft;
-        let isRunning = false;
-        let timerContainer = document.getElementById("timer-container");
-        let videoFrame = document.getElementById("background-video");
-        let mode = 'focus';
-        let videoSrc = "";
-        let videoControlsEnabled = false;
-        let sessionCount = 0;
-        const modes = {
-            focus: 25 * 60,
-            shortBreak: 5 * 60,
-            longBreak: 15 * 60
-        };
-        let player;
-        function onYouTubeIframeAPIReady() {
-        player = new YT.Player('background-video', {
-        height: '100%',
-        width: '100%',
-        videoId: 'YOUR_VIDEO_ID', // Replace with your desired YouTube video ID
-        playerVars: {
-            'autoplay': 1,
-            'controls': 0,
-            'loop': 1,
-            'playlist': 'YOUR_VIDEO_ID' // Required for looping the video
-        },
-        events: {
-            'onReady': onPlayerReady
-        }
-        });
-        }
-        function onPlayerReady(event) {
-                event.target.setVolume(50); // Set the desired volume
-            if (!isRunning) {
-                event.target.pauseVideo();
-            }
-        }
 
-        function toggleTimer() {
-            if (isRunning) {
-                clearInterval(timer);
-                isRunning = false;
-                document.getElementById("startPauseBtn").innerText = "🍥Start";
-            } else {
-                startTimer();
-                document.getElementById("startPauseBtn").innerText = "🍵Pause";
-            }
-        }
 
-        function setMode(newMode) {
-            mode = newMode;
-            document.querySelectorAll('.mode-buttons button').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`button[onclick="setMode('${newMode}')"]`).classList.add('active');
-            timeLeft = modes[newMode];
-            document.getElementById("timer-display").innerText = `${Math.floor(timeLeft / 60)}:00`;
-        }
-
-        function startTimer() {
-            if (isRunning) return;
-            timeLeft = modes[mode];
-            isRunning = true;
-            updateTimer();
-            timer = setInterval(updateTimer, 1000);
-        }
-
-        function updateTimer() {
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                isRunning = false;
-                sessionCount++;
-                if (mode === 'focus') {
-                    mode = sessionCount % 4 === 0 ? 'longBreak' : 'shortBreak';
-                } else {
-                    mode = 'focus';
-                }
-                setMode(mode);
-                startTimer();
-                return;
-            }
-            let minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            document.getElementById("timer-display").innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            timeLeft--;
-        }
-
-        function resetTimer() {
-            clearInterval(timer);
-            isRunning = false;
-            timeLeft = modes[mode];
-            document.getElementById("timer-display").innerText = `${Math.floor(timeLeft / 60)}:00`;
-            document.getElementById("startPauseBtn").innerText = "Start";
-        }
-
-        function setBackgroundFromInput() {
-            let url = document.getElementById("youtube-url").value;
-            setBackground(url);
-        }
-
-        function setBackground(url) {
-            let videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-            if (videoIdMatch) {
-                let videoId = videoIdMatch[1];
-                videoSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=0&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`;
-                videoFrame.src = videoSrc;
-            }
-        }
-
-        timerContainer.onmousedown = function(event) {
-            let shiftX = event.clientX - timerContainer.getBoundingClientRect().left;
-            let shiftY = event.clientY - timerContainer.getBoundingClientRect().top;
-            function moveAt(pageX, pageY) {
-                timerContainer.style.left = pageX - shiftX + 'px';
-                timerContainer.style.top = pageY - shiftY + 'px';
-            }
-            function onMouseMove(event) {
-                moveAt(event.pageX, event.pageY);
-            }
-            document.addEventListener('mousemove', onMouseMove);
-            timerContainer.onmouseup = function() {
-                document.removeEventListener('mousemove', onMouseMove);
-                timerContainer.onmouseup = null;
-            };
-        };
-        timerContainer.ondragstart = function() {
-            return false;
-        };
-    </script>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
