@@ -10,6 +10,7 @@
 body {
     margin: 0;
     padding: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,6 +36,22 @@ body {
     height: 100%;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* space between timer and todo list */
+  }
+
+.containertimer, .Todolist {
+    border-radius: 16px;
+    padding: 30px;
+    width: 350px;
+    text-align: center;
+    position: relative;
+    cursor: move;
+  }
+
 /* Timer and To-Do List Containers */
 #draggable-container {
     width: 300px;
@@ -45,7 +62,7 @@ body {
     border-radius: 10px;
     cursor: move; /* Indicating it's draggable */
     position: absolute; /* Allow absolute positioning */ /* Initial position */
-    left: 50px; /* Initial position */
+    top: 380px;
 }
 
 #draggable-container1 {
@@ -57,6 +74,8 @@ body {
     border-radius: 10px;
     cursor: move; /* Indicating it's draggable */
     position: absolute; /* Allow absolute positioning */
+    top: 80px;
+
 
 }
 
