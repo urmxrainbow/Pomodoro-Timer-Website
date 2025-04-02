@@ -1,4 +1,3 @@
-/* General Body Styling */
 @font-face {
     font-family: 'Cupid Love';
     src: url('fonts/cute_love-webfont.woff2') format('woff2'),
@@ -56,7 +55,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px; /* space between timer and todo list */
+    gap: 20px;
   }
 
 .containertimer, .Todolist {
@@ -68,7 +67,7 @@ body {
     cursor: move;
   }
 
-/* Timer and To-Do List Containers */
+
 #draggable-container {
     width: 300px;
     height: auto;
@@ -76,8 +75,8 @@ body {
     background-color: #FCF4DF;
     border: 2px solid #ab8e72;
     border-radius: 10px;
-    cursor: move; /* Indicating it's draggable */
-    position: absolute; /* Allow absolute positioning */ /* Initial position */
+    cursor: move;
+    position: absolute; 
     top: 380px;
 }
 
@@ -88,8 +87,8 @@ body {
     background-color: #FCF4DF;
     border: 2px solid #ab8e72;
     border-radius: 10px;
-    cursor: move; /* Indicating it's draggable */
-    position: absolute; /* Allow absolute positioning */
+    cursor: move;
+    position: absolute;
     top: 80px;
 
 
@@ -103,7 +102,7 @@ body {
     margin-top: 1.5vw;
 }
 
-/* Buttons Styling */
+
 button {
     background: #F48FB1;
     color: white;
@@ -163,7 +162,7 @@ button:hover {
     border: 2px solid #ab8e72;
 }
 
-/* To-Do List Styling */
+
 #Todolist {
     margin-top: 10px;
 }
@@ -244,16 +243,16 @@ span {
     background-color: #f0f0f0;
 }
 
-/* Icon Colors */
+
 .edit-btn i {
-    color: #4CAF50; /* Green for edit button */
+    color: #4CAF50;
 }
 
 .delete-btn i {
-    color: #FF6347; /* Red for delete button */
+    color: #FF6347;
 }
 
-/* Optional: Hover effects to make the buttons look interactive */
+
 .edit-btn:hover i {
     color: #45a049;
 }
