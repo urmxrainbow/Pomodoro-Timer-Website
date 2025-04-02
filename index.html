@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
+
     <title>Pomodoro Timer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 
 <body>
-    <!-- Background Video Container -->
+    
     <div id="background-video-container">
         <iframe id="background-video" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     </div>
 
-    <!-- Timer Container -->
+   
 
 <div class="container">
     <div id="draggable-container1" class="containertimer-">
@@ -29,7 +33,7 @@
             <button onclick="resetTimer()">🍋Restart</button>
         </div>
     </div>
-    <!-- To-Do List Container -->
+    
     <div id="draggable-container" class="Todolist">
         <h1>My To-Do List</h1>
         <div class="task-input">
@@ -39,16 +43,17 @@
         <ul id="task-list"></ul>
     </div>
 </div>
-    <!-- YouTube Video URL Input -->
+   
     <div class="youtube-input">
         <input type="text" id="youtube-url" placeholder="Paste YouTube link here">
         <button onclick="setBackgroundFromInput()">Set Background</button>
     </div>
 
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
+   
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+
     <script src="script.js"></script>
 </body>
 </html>

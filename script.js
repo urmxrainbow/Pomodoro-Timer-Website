@@ -18,12 +18,12 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('background-video', {
     height: '100%',
     width: '100%',
-    videoId: 'YOUR_VIDEO_ID', // Replace with your desired YouTube video ID
+    videoId: 'YOUR_VIDEO_ID',
     playerVars: {
       'autoplay': 1,
       'controls': 0,
       'loop': 1,
-      'playlist': 'YOUR_VIDEO_ID', // Required for looping the video
+      'playlist': 'YOUR_VIDEO_ID',
     },
     events: {
       'onReady': onPlayerReady
@@ -59,7 +59,11 @@ function setMode(newMode) {
 
 function startTimer() {
   if (isRunning) return;
-  timeLeft = modes[mode];
+
+  if (timeLeft === undefined) {
+    timeLeft = modes[mode];
+  }
+
   isRunning = true;
   updateTimer();
   timer = setInterval(updateTimer, 1000);
@@ -79,6 +83,7 @@ function updateTimer() {
     startTimer();
     return;
   }
+
   let minutes = Math.floor(timeLeft / 60);
   let seconds = timeLeft % 60;
   document.getElementById("timer-display").innerText = `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -90,7 +95,7 @@ function resetTimer() {
   isRunning = false;
   timeLeft = modes[mode];
   document.getElementById("timer-display").innerText = `${Math.floor(timeLeft / 60)}:00`;
-  document.getElementById("startPauseBtn").innerText = "Start";
+  document.getElementById("startPauseBtn").innerText = "🍥Start";
 }
 
 function setBackgroundFromInput() {
@@ -194,4 +199,49 @@ document.addEventListener("mouseup", function () {
   isDragging = false;
   currentElement = null;
   document.body.style.userSelect = "auto";
+});
+
+document.getElementById("add-task-btn").addEventListener("click", function () {
+  const taskInput = document.getElementById("new-task");
+  const taskText = taskInput.value.trim();
+
+  if (taskText !== "") {
+      const li = document.createElement("li");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", () => {
+          li.classList.toggle("checked", checkbox.checked);
+      });
+
+      const span = document.createElement("span");
+      span.textContent = taskText;
+
+      // Edit button
+      const editBtn = document.createElement("button");
+      editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+      editBtn.className = "edit-btn";
+      editBtn.addEventListener("click", () => {
+          const newText = prompt("Edit task:", span.textContent);
+          if (newText !== null) {
+              span.textContent = newText;
+          }
+      });
+
+      // Delete button
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+      deleteBtn.className = "delete-btn";
+      deleteBtn.addEventListener("click", () => {
+          li.remove();
+      });
+
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      li.appendChild(editBtn);
+      li.appendChild(deleteBtn);
+
+      document.getElementById("task-list").appendChild(li);
+      taskInput.value = "";
+  }
 });
