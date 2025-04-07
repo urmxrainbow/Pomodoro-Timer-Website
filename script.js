@@ -32,7 +32,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  event.target.setVolume(50); // Set the desired volume
+  event.target.setVolume(50); 
   if (!isRunning) {
     event.target.pauseVideo();
   }
@@ -112,50 +112,93 @@ function setBackground(url) {
   }
 }
 
-// Task management logic
 document.getElementById("add-task-btn").addEventListener("click", addTask);
 
 function addTask() {
-  const taskInput = document.getElementById("new-task");
-  const taskValue = taskInput.value.trim();
+  const taskInput = document.getElementById('new-task');
+  const taskText = taskInput.value.trim();
+  if (taskText === '') return;
 
-  if (taskValue) {
-    const taskList = document.getElementById("task-list");
-    const newTask = document.createElement("li");
+  const li = document.createElement('li');
 
-    newTask.innerHTML = `
-      <input type="checkbox" onclick="toggleCheck(this)">
-      <span>${taskValue}</span>
-    `;
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.addEventListener('change', () => {
+      li.classList.toggle('checked');
+  });
 
-    taskList.appendChild(newTask);
-    taskInput.value = "";
-  }
+  const span = document.createElement('span');
+  span.classList.add('task-text');
+  span.textContent = taskText;
+
+  const taskContent = document.createElement('div');
+  taskContent.classList.add('task-content');
+  taskContent.appendChild(checkbox);
+  taskContent.appendChild(span);
+
+  const editBtn = document.createElement('button');
+  editBtn.classList.add('edit-btn');
+  editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+  editBtn.addEventListener('click', () => {
+      const newText = prompt("Edit task", span.textContent);
+      if (newText !== null && newText.trim() !== '') {
+          span.textContent = newText.trim();
+      }
+  });
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.classList.add('delete-btn');
+  deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+  deleteBtn.addEventListener('click', () => {
+      li.remove();
+  });
+
+  const iconGroup = document.createElement('div');
+  iconGroup.classList.add('icon-group');
+  iconGroup.appendChild(editBtn);
+  iconGroup.appendChild(deleteBtn);
+
+  li.appendChild(taskContent); 
+  li.appendChild(iconGroup); 
+
+  document.getElementById('task-list').appendChild(li);
+  taskInput.value = '';
 }
+
+
 
 function toggleCheck(checkbox) {
   const task = checkbox.parentElement;
   task.classList.toggle("checked");
 }
 
+function editTask(taskItem, oldText) {
+  const newText = prompt("Edit your task", oldText);
+  if (newText && newText.trim() !== "") {
+      taskItem.querySelector('span').textContent = newText.trim();
+  }
+}
+
+function deleteTask(taskItem) {
+  taskItem.remove();
+}
+
 document.getElementById("task-list").addEventListener("click", function(e) {
-    // Delete task
+
     if (e.target.classList.contains("fa-trash")) {
-      e.target.closest("li").remove(); // Remove the task item
+      e.target.closest("li").remove();
     }
     
-    // Edit task
     if (e.target.classList.contains("fa-pencil")) {
       const taskItem = e.target.closest("li");
       const taskName = taskItem.querySelector(".task-name").textContent;
       const newTaskName = prompt("Edit your task:", taskName);
       if (newTaskName) {
-        taskItem.querySelector(".task-name").textContent = newTaskName; // Update the task name
+        taskItem.querySelector(".task-name").textContent = newTaskName; 
       }
     }
 });
 
-// Select both draggable containers
 const draggableElements = [
   document.getElementById("draggable-container"),
   document.getElementById("draggable-container1")
@@ -165,14 +208,13 @@ let isDragging = false;
 let offsetX, offsetY;
 let currentElement = null;
 
-// Loop through each element and make it draggable
 draggableElements.forEach(el => {
   el.addEventListener("mousedown", function (e) {
     isDragging = true;
     currentElement = el;
     offsetX = e.clientX - el.offsetLeft;
     offsetY = e.clientY - el.offsetTop;
-    document.body.style.userSelect = "none"; // Prevent text selection
+    document.body.style.userSelect = "none";
   });
 });
 
@@ -181,7 +223,6 @@ document.addEventListener("mousemove", function (e) {
     let x = e.clientX - offsetX;
     let y = e.clientY - offsetY;
 
-    // Keep within viewport
     const maxX = window.innerWidth - currentElement.offsetWidth;
     const maxY = window.innerHeight - currentElement.offsetHeight;
 
@@ -217,7 +258,6 @@ document.getElementById("add-task-btn").addEventListener("click", function () {
       const span = document.createElement("span");
       span.textContent = taskText;
 
-      // Edit button
       const editBtn = document.createElement("button");
       editBtn.innerHTML = '<i class="fas fa-edit"></i>';
       editBtn.className = "edit-btn";
@@ -228,7 +268,6 @@ document.getElementById("add-task-btn").addEventListener("click", function () {
           }
       });
 
-      // Delete button
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
       deleteBtn.className = "delete-btn";
@@ -245,3 +284,6 @@ document.getElementById("add-task-btn").addEventListener("click", function () {
       taskInput.value = "";
   }
 });
+
+ 
+

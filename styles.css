@@ -42,7 +42,7 @@ body {
     overflow: hidden;
   }
   
-  .spotify-embed iframe {
+.spotify-embed iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -90,10 +90,7 @@ body {
     cursor: move;
     position: absolute;
     top: 80px;
-
-
 }
-
 
 .buttons, .mode-buttons {
     display: flex;
@@ -188,8 +185,25 @@ button:hover {
     cursor: pointer;
 }
 
+.task-content {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between checkbox and text */
+    flex: 1; /* allows task content to fill space */
+}
+
+.task-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between edit and delete */
+}
+
 #add-task-btn:hover {
     background-color: #45a049;
+}
+
+li:hover .task-buttons {
+    opacity: 1;
 }
 
 ul {
@@ -201,11 +215,11 @@ ul {
 li {
     display: flex;
     align-items: center;
-    padding: 10px;
     border-bottom: 1px solid #d7bea7;
+    padding: 10px;
 }
 
-li.checked {
+li.checked .task-text {
     text-decoration: line-through;
     color: #393939;
 }
@@ -224,15 +238,26 @@ input[type="checkbox"] {
 span {
     cursor: pointer;
     padding: 5px;
-    margin-left: 10px;
-    font-size: 18px;
+    font-size: 20px;
 }
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    gap: 7px; /* spacing between the icons */
+    padding: 4px;
+    border-radius: 6px;
+}
+
 
 .edit-btn, .delete-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 4px;
+    background: none;
+
+
 }
 
 .edit-btn:hover {
